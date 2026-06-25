@@ -27,7 +27,25 @@
     background: var(--navy);
     color: var(--gray1);
     line-height: 1.7;
+    overflow-x: hidden;
   }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s cubic-bezier(.4,0,.2,1), transform 0.65s cubic-bezier(.4,0,.2,1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+  .reveal-delay-6 { transition-delay: 0.6s; }
 
   /* ── SLIDE SYSTEM ── */
   .slide {
@@ -39,7 +57,6 @@
     padding: 60px 80px;
     position: relative;
     overflow: hidden;
-    page-break-after: always;
   }
 
   .slide--alt { background: var(--navy3); }
@@ -54,15 +71,21 @@
     text-transform: uppercase;
   }
 
-  /* ── DIVIDER ── */
+  /* ── ANIMATED TEAL LINE ── */
   .teal-line {
-    width: 52px;
+    width: 0;
     height: 2px;
     background: var(--teal);
     margin-bottom: 28px;
+    transition: width 0.8s cubic-bezier(.4,0,.2,1) 0.2s;
   }
-
-  .teal-line--wide { width: 100%; margin-bottom: 0; margin-top: 32px; }
+  .teal-line.visible { width: 52px; }
+  .teal-line--wide {
+    width: 100%;
+    height: 1px;
+    background: rgba(20,184,166,0.2);
+    margin-top: 32px;
+  }
 
   /* ── TYPOGRAPHY ── */
   .label {
@@ -75,74 +98,77 @@
   }
 
   h1.hero-name {
-    font-size: clamp(48px, 6vw, 72px);
+    font-size: clamp(52px, 7vw, 82px);
     font-weight: 900;
     color: var(--white);
-    line-height: 1.05;
-    letter-spacing: -1px;
+    line-height: 1.0;
+    letter-spacing: -2px;
   }
-
   h1.hero-name span { color: var(--teal); }
 
   .hero-title {
-    font-size: clamp(15px, 1.8vw, 19px);
+    font-size: clamp(13px, 1.5vw, 17px);
     font-weight: 400;
     color: var(--gray2);
-    letter-spacing: 1px;
-    margin-top: 10px;
+    letter-spacing: 2px;
+    margin-top: 14px;
     text-transform: uppercase;
   }
 
+  .hero-origin {
+    font-size: clamp(14px, 1.4vw, 17px);
+    font-style: italic;
+    color: var(--teal);
+    margin-top: 20px;
+    opacity: 0.85;
+  }
+
   .hero-thesis {
-    font-size: clamp(15px, 1.6vw, 18px);
+    font-size: clamp(14px, 1.5vw, 17px);
     font-weight: 400;
     color: var(--gray1);
-    max-width: 680px;
-    margin-top: 28px;
-    line-height: 1.8;
+    max-width: 620px;
+    margin-top: 24px;
+    line-height: 1.85;
     border-left: 2px solid var(--teal);
     padding-left: 20px;
   }
 
   h2.section-title {
-    font-size: clamp(28px, 3.5vw, 42px);
+    font-size: clamp(26px, 3.5vw, 42px);
     font-weight: 800;
     color: var(--white);
     line-height: 1.15;
     margin-bottom: 8px;
   }
-
   h2.section-title span { color: var(--teal); }
-
-  h3.card-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--white);
-    margin-bottom: 6px;
-  }
 
   p.body-text {
     font-size: 15px;
     color: var(--gray1);
-    line-height: 1.8;
+    line-height: 1.85;
   }
 
-  /* ── KPI GRID ── */
+  /* ── KPI ── */
   .kpi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 20px;
-    margin-top: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 18px;
+    margin-top: 36px;
   }
 
   .kpi-card {
     background: var(--navy2);
-    border: 1px solid rgba(20,184,166,0.15);
+    border: 1px solid rgba(20,184,166,0.13);
     border-radius: 8px;
-    padding: 24px 20px;
+    padding: 22px 18px;
     position: relative;
+    transition: border-color 0.3s, transform 0.3s;
   }
-
+  .kpi-card:hover {
+    border-color: rgba(20,184,166,0.4);
+    transform: translateY(-3px);
+  }
   .kpi-card::before {
     content: '';
     position: absolute;
@@ -153,14 +179,13 @@
   }
 
   .kpi-number {
-    font-size: clamp(28px, 3vw, 38px);
+    font-size: clamp(24px, 2.8vw, 34px);
     font-weight: 900;
     color: var(--white);
     line-height: 1;
   }
-
   .kpi-label {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--gray2);
     margin-top: 6px;
     line-height: 1.4;
@@ -168,74 +193,138 @@
     letter-spacing: 1px;
   }
 
-  /* ── EXECUTIVE SUMMARY ── */
-  .summary-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    margin-top: 40px;
-    align-items: start;
-  }
-
   /* ── THESIS BOX ── */
   .thesis-box {
-    background: rgba(20,184,166,0.07);
-    border: 1px solid rgba(20,184,166,0.25);
+    background: rgba(20,184,166,0.06);
+    border: 1px solid rgba(20,184,166,0.22);
     border-radius: 8px;
-    padding: 32px;
-    margin-top: 40px;
+    padding: 30px 32px;
+    margin-top: 36px;
   }
-
   .thesis-box p {
-    font-size: 17px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 400;
     color: var(--white);
-    line-height: 1.85;
+    line-height: 1.9;
   }
 
   /* ── METHODOLOGY ── */
   .method-steps {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 0;
-    margin-top: 44px;
-    position: relative;
+    gap: 16px;
+    margin-top: 40px;
   }
-
   .method-step {
-    padding: 28px 24px;
+    background: var(--navy2);
+    border-radius: 8px;
+    padding: 26px 22px;
     position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+    border: 1px solid rgba(20,184,166,0.08);
   }
-
+  .method-step:hover {
+    border-color: rgba(20,184,166,0.3);
+    transform: translateY(-4px);
+  }
   .method-step:not(:last-child)::after {
     content: '→';
     position: absolute;
-    right: -12px;
-    top: 36px;
+    right: -14px;
+    top: 30px;
     color: var(--teal);
-    font-size: 20px;
-    font-weight: 300;
+    font-size: 18px;
+    z-index: 2;
   }
-
   .step-num {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 3px;
     color: var(--teal);
     margin-bottom: 10px;
   }
-
   .step-title {
     font-size: 15px;
     font-weight: 700;
     color: var(--white);
     margin-bottom: 8px;
   }
-
   .step-desc {
     font-size: 13px;
     color: var(--gray2);
     line-height: 1.65;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    margin-top: 50px;
+    padding-bottom: 10px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 14px;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--teal), rgba(20,184,166,0.2));
+    transition: width 1.2s cubic-bezier(.4,0,.2,1) 0.3s;
+  }
+  .timeline.visible::before { width: 100%; }
+
+  .timeline-items {
+    display: flex;
+    gap: 0;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .timeline-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+    padding-top: 36px;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    top: 6px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 2px solid var(--teal);
+    transition: background 0.3s, transform 0.3s;
+    cursor: default;
+  }
+  .timeline-dot.active { background: var(--teal); }
+  .timeline-item:hover .timeline-dot {
+    background: var(--teal);
+    transform: scale(1.3);
+  }
+
+  .timeline-year {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--teal);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+  .timeline-role {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--white);
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .timeline-company {
+    font-size: 11px;
+    color: var(--gray2);
+    text-align: center;
+    line-height: 1.4;
   }
 
   /* ── CASE STUDY ── */
@@ -244,32 +333,28 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: 40px;
-    margin-bottom: 36px;
+    margin-bottom: 32px;
   }
-
   .case-tag {
     font-size: 11px;
     font-weight: 700;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     color: var(--teal);
     text-transform: uppercase;
-    background: rgba(20,184,166,0.1);
-    border: 1px solid rgba(20,184,166,0.25);
+    background: rgba(20,184,166,0.08);
+    border: 1px solid rgba(20,184,166,0.22);
     padding: 6px 14px;
     border-radius: 4px;
     white-space: nowrap;
     margin-top: 6px;
   }
-
   .case-grid {
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
-    gap: 48px;
+    gap: 44px;
     align-items: start;
   }
-
-  .case-block { margin-bottom: 26px; }
-
+  .case-block { margin-bottom: 22px; }
   .case-block-label {
     font-size: 10px;
     font-weight: 700;
@@ -278,32 +363,27 @@
     color: var(--teal);
     margin-bottom: 8px;
   }
-
   .case-results {
     background: var(--navy2);
     border-radius: 8px;
-    padding: 28px;
-    border: 1px solid rgba(20,184,166,0.12);
+    padding: 26px;
+    border: 1px solid rgba(20,184,166,0.1);
   }
-
   .result-item {
     display: flex;
     align-items: baseline;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    gap: 14px;
+    padding: 11px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
   }
-
   .result-item:last-child { border-bottom: none; }
-
   .result-num {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 900;
     color: var(--teal);
     white-space: nowrap;
-    min-width: 90px;
+    min-width: 88px;
   }
-
   .result-desc {
     font-size: 13px;
     color: var(--gray1);
@@ -314,292 +394,332 @@
   .leadership-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 28px;
-    margin-top: 40px;
+    gap: 22px;
+    margin-top: 36px;
   }
-
   .lead-card {
     background: var(--navy2);
     border-radius: 8px;
-    padding: 28px;
+    padding: 26px;
     border-left: 3px solid var(--teal);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .lead-card:hover {
+    transform: translateX(4px);
+    box-shadow: -4px 0 16px rgba(20,184,166,0.15);
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
   }
 
   /* ── TOOLS ── */
   .tools-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-    margin-top: 40px;
+    gap: 22px;
+    margin-top: 36px;
   }
-
   .tool-group {
     background: var(--navy2);
     border-radius: 8px;
-    padding: 28px;
+    padding: 26px;
+    transition: transform 0.3s;
   }
-
+  .tool-group:hover { transform: translateY(-3px); }
   .tool-group-title {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
     color: var(--teal);
-    margin-bottom: 18px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(20,184,166,0.2);
   }
-
   .tool-item {
     font-size: 14px;
     color: var(--gray1);
     padding: 7px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
   }
-
   .tool-item:last-child { border-bottom: none; }
 
-  /* ── REGIONAL ── */
+  /* ── MARKET CARDS ── */
   .market-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    margin-top: 40px;
+    gap: 18px;
+    margin-top: 36px;
   }
-
   .market-card {
     background: var(--navy2);
     border-radius: 8px;
-    padding: 24px;
+    padding: 22px;
     border-top: 2px solid var(--teal);
+    transition: transform 0.3s, box-shadow 0.3s;
   }
-
-  .market-flag {
-    font-size: 28px;
-    margin-bottom: 10px;
+  .market-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
   }
-
+  .market-flag { font-size: 26px; margin-bottom: 10px; }
   .market-name {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--white);
     margin-bottom: 8px;
     text-transform: uppercase;
     letter-spacing: 1px;
   }
+  .market-desc { font-size: 13px; color: var(--gray2); line-height: 1.6; }
 
-  .market-desc {
-    font-size: 13px;
-    color: var(--gray2);
-    line-height: 1.6;
+  /* ── EXPERTISE ── */
+  .expertise-col { display: flex; flex-direction: column; gap: 10px; }
+  .expertise-item {
+    background: var(--navy2);
+    border-radius: 6px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: var(--gray1);
+    border-left: 2px solid rgba(20,184,166,0.35);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .expertise-item:hover {
+    border-color: var(--teal);
+    background: rgba(20,184,166,0.06);
   }
 
-  /* ── COVER DECORATION ── */
+  /* ── COVER DECO ── */
   .cover-deco {
     position: absolute;
-    right: -80px;
-    top: -80px;
-    width: 500px;
-    height: 500px;
+    right: -100px; top: -100px;
+    width: 550px; height: 550px;
     border-radius: 50%;
-    border: 1px solid rgba(20,184,166,0.08);
+    border: 1px solid rgba(20,184,166,0.07);
+    animation: pulse-ring 6s ease-in-out infinite;
     pointer-events: none;
   }
-
   .cover-deco::before {
     content: '';
     position: absolute;
-    inset: 40px;
+    inset: 50px;
     border-radius: 50%;
-    border: 1px solid rgba(20,184,166,0.06);
+    border: 1px solid rgba(20,184,166,0.05);
   }
+  .cover-deco::after {
+    content: '';
+    position: absolute;
+    inset: 110px;
+    border-radius: 50%;
+    border: 1px solid rgba(20,184,166,0.04);
+  }
+  @keyframes pulse-ring {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.04); opacity: 0.7; }
+  }
+
+  /* ── COUNTER ANIMATION ── */
+  .count-up { transition: all 0.1s; }
 
   /* ── CONTACT ── */
-  .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    margin-top: 44px;
-    align-items: start;
-  }
-
   .contact-item {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 16px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
   }
-
   .contact-dot {
-    width: 6px;
-    height: 6px;
+    width: 6px; height: 6px;
     background: var(--teal);
     border-radius: 50%;
     flex-shrink: 0;
   }
-
   .contact-label {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--gray2);
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-bottom: 2px;
   }
+  .contact-value { font-size: 15px; color: var(--white); font-weight: 500; }
 
-  .contact-value {
-    font-size: 15px;
-    color: var(--white);
-    font-weight: 500;
-  }
-
-  /* ── EXPERTISE ── */
-  .expertise-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin-top: 40px;
-  }
-
-  .expertise-item {
-    background: var(--navy2);
-    border-radius: 6px;
-    padding: 16px 20px;
-    font-size: 14px;
-    color: var(--gray1);
-    border-left: 2px solid rgba(20,184,166,0.4);
-  }
-
-  /* ── QUOTE ── */
-  .pull-quote {
-    font-size: clamp(17px, 2vw, 22px);
-    font-weight: 600;
-    color: var(--white);
-    line-height: 1.65;
-    border-left: 3px solid var(--teal);
-    padding-left: 24px;
-    margin: 36px 0;
-    max-width: 700px;
-  }
-
-  /* ── CTA PAGE ── */
-  .cta-center {
-    text-align: center;
-    max-width: 640px;
-    margin: 0 auto;
-  }
-
+  /* ── CTA ── */
   .cta-big {
-    font-size: clamp(32px, 4vw, 52px);
+    font-size: clamp(30px, 4vw, 50px);
     font-weight: 900;
     color: var(--white);
     line-height: 1.1;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
   }
-
   .cta-big span { color: var(--teal); }
 
-  .cta-line {
-    width: 60px;
-    height: 2px;
-    background: var(--teal);
-    margin: 28px auto;
+  /* ── PULL QUOTE ── */
+  .pull-quote {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--white);
+    line-height: 1.7;
+    border-left: 3px solid var(--teal);
+    padding-left: 20px;
+    margin-top: 20px;
+    font-style: italic;
+    opacity: 0.85;
+  }
+
+  /* ── PHOTO PLACEHOLDER ── */
+  .photo-placeholder {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    border: 2px solid rgba(20,184,166,0.3);
+    background: var(--navy2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 11px;
+    color: var(--gray2);
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    .slide { padding: 40px 24px; }
+    .case-grid, .leadership-grid, .tools-grid,
+    .market-grid, .method-steps { grid-template-columns: 1fr; }
+    .method-step::after { display: none; }
+    .timeline-items { flex-wrap: wrap; gap: 20px; }
   }
 
   @media print {
     .slide { page-break-after: always; min-height: 100vh; }
     body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .teal-line { width: 52px !important; }
+    .timeline::before { width: 100% !important; }
   }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 1 — COVER
-════════════════════════════════════════════════ -->
+<!-- PAGE 1 — COVER -->
 <div class="slide" style="justify-content:flex-end; padding-bottom: 80px;">
   <div class="cover-deco"></div>
 
-  <div class="label">Portfolio · 2025</div>
-  <h1 class="hero-name">Salah<br><span>Sirag</span></h1>
-  <div class="hero-title">Marketing Manager — Growth &amp; Department Building</div>
+  <div class="reveal label">Portfolio · 2025</div>
+  <h1 class="reveal hero-name reveal-delay-1">Salah<br><span>Sirag</span></h1>
+  <div class="reveal reveal-delay-2 hero-title">Marketing Manager — Growth & Department Building</div>
+  <div class="reveal reveal-delay-3 hero-origin">Before I was a marketer, I was observing — how people sell, how money moves, how trust is built. I've been doing it since I was twelve.</div>
 
-  <p class="hero-thesis">
+  <p class="reveal reveal-delay-4 hero-thesis">
     I don't manage marketing departments. I build them — from nothing — and leave them running without me. Three times. Across 9 industries. In 6 markets. The growth comes after the foundation.
   </p>
 
-  <div class="teal-line--wide" style="margin-top: 56px;"></div>
-  <div style="display:flex; gap: 48px; margin-top: 20px;">
-    <div><div class="kpi-number" style="font-size:22px;">7+</div><div class="kpi-label">Years Experience</div></div>
-    <div><div class="kpi-number" style="font-size:22px;">3</div><div class="kpi-label">Departments Built</div></div>
-    <div><div class="kpi-number" style="font-size:22px;">6</div><div class="kpi-label">Markets</div></div>
-    <div><div class="kpi-number" style="font-size:22px;">USD 840K+</div><div class="kpi-label">Revenue Influenced</div></div>
+  <div class="teal-line--wide reveal reveal-delay-5" style="margin-top: 48px;"></div>
+  <div class="reveal reveal-delay-6" style="display:flex; gap: 44px; margin-top: 18px; flex-wrap: wrap;">
+    <div><div class="kpi-number" style="font-size:20px;">7+</div><div class="kpi-label">Years</div></div>
+    <div><div class="kpi-number" style="font-size:20px;">3</div><div class="kpi-label">Depts Built</div></div>
+    <div><div class="kpi-number" style="font-size:20px;">6</div><div class="kpi-label">Markets</div></div>
+    <div><div class="kpi-number" style="font-size:20px;">13</div><div class="kpi-label">Team Led</div></div>
+    <div><div class="kpi-number" style="font-size:20px;">USD 840K+</div><div class="kpi-label">Revenue Influenced</div></div>
   </div>
 
   <div class="page-num">01</div>
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 2 — EXECUTIVE THESIS
-════════════════════════════════════════════════ -->
+<!-- PAGE 2 — CAREER TIMELINE -->
 <div class="slide slide--alt">
-  <div class="label">Who I Am</div>
-  <div class="teal-line"></div>
-  <h2 class="section-title">The <span>Problem</span> I Was Built to Solve</h2>
+  <div class="reveal label">Career Journey</div>
+  <div class="teal-line reveal"></div>
+  <h2 class="reveal section-title">The Road to <span>GCC</span></h2>
+  <p class="reveal body-text" style="color:var(--gray2); max-width:600px; margin-top:6px;">
+    Every role added a layer. The pattern was always the same — walk into chaos, build order, produce results, leave the function standing.
+  </p>
 
-  <div class="thesis-box">
-    <p>
-      Most companies hire a marketing manager after the function already exists. Someone built the brand, set the strategy, hired the team, built the tools, created the processes — and now they need someone to manage it.<br><br>
-      That's not where I've spent my career.<br><br>
-      Every significant role I've held started with the same situation: a company with ambition, a social media page, and no real marketing function. No brand identity. No target audience defined. No processes. No team. Sometimes no budget clarity.<br><br>
-      I walk in, diagnose the gap between where the business is and where it wants to go, build the infrastructure to get there, hire and develop the team to run it, and create the systems so it keeps running when I'm not in the room.<br><br>
-      I've done this three times — in real estate, BPO, and a multi-client agency. The function existed after I left. That's the only metric that matters.
-    </p>
+  <div class="timeline reveal">
+    <div class="timeline-items">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2017</div>
+        <div class="timeline-role">Marketing Trainee</div>
+        <div class="timeline-company">Petronas Petroleum<br>Malaysia / Sudan</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2019–2022</div>
+        <div class="timeline-role">Founder & Marketing Lead</div>
+        <div class="timeline-company">Own Business<br>Sudan + Dubai</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year">2023</div>
+        <div class="timeline-year" style="color:var(--gray2); font-size:11px; margin-top:-4px;">Cairo · Rebuild</div>
+        <div class="timeline-role">Marketing Diploma</div>
+        <div class="timeline-company">Top of class · 60 students<br>Creative Agency Trainee</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot active"></div>
+        <div class="timeline-year">2024</div>
+        <div class="timeline-role">Marketing Manager</div>
+        <div class="timeline-company">Onyx Real Estate<br>+ Telephonic BPO</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot active"></div>
+        <div class="timeline-year">2025</div>
+        <div class="timeline-role">Marketing Manager</div>
+        <div class="timeline-company">Stratx Lab<br>Egypt & GCC Clients</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-dot" style="border-color: rgba(20,184,166,0.4); border-style: dashed;"></div>
+        <div class="timeline-year" style="color:rgba(20,184,166,0.6);">Next</div>
+        <div class="timeline-role" style="color:rgba(255,255,255,0.5);">Marketing Manager</div>
+        <div class="timeline-company" style="color:rgba(255,255,255,0.35);">Saudi Arabia<br>UAE · GCC</div>
+      </div>
+    </div>
   </div>
 
-  <div class="kpi-grid" style="margin-top: 36px; grid-template-columns: repeat(6,1fr);">
-    <div class="kpi-card"><div class="kpi-number">3</div><div class="kpi-label">Depts Built From Zero</div></div>
-    <div class="kpi-card"><div class="kpi-number">17+</div><div class="kpi-label">Professionals Hired</div></div>
-    <div class="kpi-card"><div class="kpi-number">13</div><div class="kpi-label">Team Members Led</div></div>
-    <div class="kpi-card"><div class="kpi-number">20+</div><div class="kpi-label">Projects Delivered</div></div>
-    <div class="kpi-card"><div class="kpi-number">15+</div><div class="kpi-label">Brands Managed</div></div>
-    <div class="kpi-card"><div class="kpi-number">9</div><div class="kpi-label">Industries</div></div>
+  <div class="kpi-grid reveal" style="grid-template-columns: repeat(6,1fr); margin-top: 44px;">
+    <div class="kpi-card"><div class="kpi-number count-up" data-target="3">0</div><div class="kpi-label">Depts Built</div></div>
+    <div class="kpi-card"><div class="kpi-number count-up" data-target="17">0</div><div class="kpi-label">Professionals Hired</div></div>
+    <div class="kpi-card"><div class="kpi-number count-up" data-target="13">0</div><div class="kpi-label">Team Led</div></div>
+    <div class="kpi-card"><div class="kpi-number count-up" data-target="20">0</div><div class="kpi-label">Projects Delivered</div></div>
+    <div class="kpi-card"><div class="kpi-number count-up" data-target="15">0</div><div class="kpi-label">Brands Managed</div></div>
+    <div class="kpi-card"><div class="kpi-number count-up" data-target="9">0</div><div class="kpi-label">Industries</div></div>
   </div>
 
   <div class="page-num">02</div>
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 3 — HOW I BUILD DEPARTMENTS
-════════════════════════════════════════════════ -->
+<!-- PAGE 3 — EXECUTIVE THESIS -->
 <div class="slide">
-  <div class="label">Methodology</div>
-  <div class="teal-line"></div>
-  <h2 class="section-title">How I Build a<br><span>Marketing Department</span></h2>
-  <p class="body-text" style="max-width: 620px; margin-top: 8px; color: var(--gray2);">
-    A repeatable framework developed across three department builds. The goal is always the same: a function that produces results without needing me in every decision.
-  </p>
+  <div class="reveal label">Who I Am</div>
+  <div class="teal-line reveal"></div>
+  <h2 class="reveal section-title">The <span>Problem</span><br>I Was Built to Solve</h2>
 
-  <div class="method-steps">
-    <div class="method-step" style="background: var(--navy2); border-radius: 8px;">
-      <div class="step-num">WEEK 1</div>
-      <div class="step-title">Diagnose</div>
-      <div class="step-desc">Meet the CEO and business development lead. Extract the real vision, not the stated one. Map the competitive landscape. Identify what's broken and what's missing. Audit existing assets — pages, content, any prior campaigns.</div>
+  <div class="thesis-box reveal reveal-delay-1">
+    <p>
+      Most companies hire a marketing manager after the function already exists. Someone built the brand, set the strategy, hired the team, created the tools and processes — and now they need someone to manage what's already there.<br><br>
+      That's not where I've spent my career.<br><br>
+      Every significant role I've held started with the same situation: a company with ambition, a social media page, and no real marketing function. No brand identity. No target audience defined. No team. No systems. Sometimes no budget clarity.<br><br>
+      I walk in, diagnose the gap between where the business is and where leadership wants it to go, build the infrastructure to get there, hire and develop the people to run it, and create the systems that keep it producing when I'm not in the room.<br><br>
+      I've done this three times. The function existed after I left. That's the metric that matters.
+    </p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 28px;">
+    <div class="reveal reveal-delay-2 lead-card" style="border-left-color: var(--teal);">
+      <div class="card-title">What I find when I arrive</div>
+      <p style="font-size:13px; color:var(--gray2); line-height:1.7; margin-top:6px;">Active social pages with no brand identity. No tone of voice. No target audience defined. No performance marketing. No lead generation system. No reporting. A CEO with goals and no roadmap.</p>
     </div>
-    <div class="method-step" style="background: var(--navy2); border-radius: 8px;">
-      <div class="step-num">WEEKS 2–4</div>
-      <div class="step-title">Build the Foundation</div>
-      <div class="step-desc">Define brand purpose, mission, core values, brand promise, target audience, tone of voice, key messages, visual identity — color palette, fonts, graphic elements. Everything the team will use as their north star before a single ad runs.</div>
-    </div>
-    <div class="method-step" style="background: var(--navy2); border-radius: 8px;">
-      <div class="step-num">MONTH 2</div>
-      <div class="step-title">Build the Team & Systems</div>
-      <div class="step-desc">Hire for the gaps — not for roles, for outcomes. Implement ClickUp workflows: task assignment, review cycles, reporting, attendance accountability. Brief every team member with quarterly content planning so direction is never lost.</div>
-    </div>
-    <div class="method-step" style="background: var(--navy2); border-radius: 8px;">
-      <div class="step-num">MONTH 3+</div>
-      <div class="step-title">Execute & Scale</div>
-      <div class="step-desc">Launch performance campaigns with A/B testing. Weekly reports up to leadership. Man-to-man sessions with each team member. Cross-train team members across functions. The department runs when I'm not in the room.</div>
+    <div class="reveal reveal-delay-3 lead-card" style="border-left-color: var(--teal);">
+      <div class="card-title">What I leave behind</div>
+      <p style="font-size:13px; color:var(--gray2); line-height:1.7; margin-top:6px;">A brand foundation. A hired and trained team. A ClickUp-based operating system. A reporting structure. A campaign pipeline. A department that functions without me in every decision.</p>
     </div>
   </div>
 
@@ -607,44 +727,35 @@
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 4 — REGIONAL FOOTPRINT
-════════════════════════════════════════════════ -->
+<!-- PAGE 4 — METHODOLOGY -->
 <div class="slide slide--alt">
-  <div class="label">Regional Experience</div>
-  <div class="teal-line"></div>
-  <h2 class="section-title">Built for the<br><span>GCC Market</span></h2>
+  <div class="reveal label">Methodology</div>
+  <div class="teal-line reveal"></div>
+  <h2 class="reveal section-title">How I Build a<br><span>Marketing Department</span></h2>
+  <p class="reveal body-text" style="color:var(--gray2); max-width:580px; margin-top:6px;">
+    Developed across three full department builds. Repeatable. Documented. The goal is always a function that produces results without needing me in every decision.
+  </p>
 
-  <div class="market-grid">
-    <div class="market-card">
-      <div class="market-flag">🇸🇦</div>
-      <div class="market-name">Saudi Arabia</div>
-      <div class="market-desc">Contributed to a government-sector initiative under the Ministry of Interior — an addiction awareness and educational gaming project with a USD 16K+ budget. Direct experience working within Saudi institutional culture and stakeholder expectations.</div>
+  <div class="method-steps">
+    <div class="reveal reveal-delay-1 method-step">
+      <div class="step-num">WEEK 1</div>
+      <div class="step-title">Diagnose</div>
+      <div class="step-desc">Meet the CEO and business development lead. Extract the real vision. Map the competitive landscape. Audit everything that exists — pages, content, prior campaigns. Identify what's broken and what's missing entirely.</div>
     </div>
-    <div class="market-card">
-      <div class="market-flag">🇴🇲</div>
-      <div class="market-name">Oman</div>
-      <div class="market-desc">Represented a technology company at COMEX Oman — one of the largest tech events in the region. Built the company's event presence from scratch, generated qualified business opportunities, and expanded the regional client network.</div>
+    <div class="reveal reveal-delay-2 method-step">
+      <div class="step-num">WEEKS 2–4</div>
+      <div class="step-title">Build the Foundation</div>
+      <div class="step-desc">Define brand purpose, mission, values, target audience, tone of voice, key messages, visual identity — colors, fonts, graphic elements. Everything the team uses as their north star before a single ad runs.</div>
     </div>
-    <div class="market-card">
-      <div class="market-flag">🇦🇪</div>
-      <div class="market-name">UAE</div>
-      <div class="market-desc">Managed active client accounts in the UAE while leading a multi-client agency team. Attended the Gulf Food Show in Dubai independently as a student — prospected, built relationships, and closed a USD 7,000 deal from the ground up.</div>
+    <div class="reveal reveal-delay-3 method-step">
+      <div class="step-num">MONTH 2</div>
+      <div class="step-title">Build the Team & Systems</div>
+      <div class="step-desc">Hire for outcomes, not roles. Implement ClickUp: task assignment, review stages, reporting, attendance. Brief every team member with quarterly content plans. Cross-train deliberately — pair strong performers with developing ones.</div>
     </div>
-    <div class="market-card">
-      <div class="market-flag">🇬🇧</div>
-      <div class="market-name">UK Market</div>
-      <div class="market-desc">Managed employer branding and recruitment marketing campaigns targeting UK-based audiences through TELEPHONIC BPO. Supported US and UK client account retention through marketing-led agent acquisition.</div>
-    </div>
-    <div class="market-card">
-      <div class="market-flag">🇺🇸</div>
-      <div class="market-name">USA Market</div>
-      <div class="market-desc">Supported the retention of a major US solar sales account through targeted recruitment marketing. Generated 200+ qualified agent leads in 10 days — preventing account loss that would have resulted in company closure.</div>
-    </div>
-    <div class="market-card">
-      <div class="market-flag">🇪🇬</div>
-      <div class="market-name">Egypt</div>
-      <div class="market-desc">Primary operating market — real estate, BPO, healthcare, technology, and events. Built three marketing departments, managed USD 9K+ in advertising spend, and influenced over USD 840K in real estate revenue.</div>
+    <div class="reveal reveal-delay-4 method-step">
+      <div class="step-num">MONTH 3+</div>
+      <div class="step-title">Execute & Scale</div>
+      <div class="step-desc">Launch performance campaigns with A/B testing. Weekly reports upward to leadership. Man-to-man sessions with each team member. The department runs when I'm not in the room. That's when it's done.</div>
     </div>
   </div>
 
@@ -652,38 +763,42 @@
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 5 — LEADERSHIP & TEAM
-════════════════════════════════════════════════ -->
+<!-- PAGE 5 — REGIONAL FOOTPRINT -->
 <div class="slide">
-  <div class="label">Leadership</div>
-  <div class="teal-line"></div>
-  <h2 class="section-title">Leading Teams.<br><span>Building People.</span></h2>
+  <div class="reveal label">Regional Experience</div>
+  <div class="teal-line reveal"></div>
+  <h2 class="reveal section-title">Built for the<br><span>GCC Market</span></h2>
 
-  <div class="leadership-grid">
-    <div class="lead-card">
-      <h3 class="card-title">Cross-Functional Team of 13</h3>
-      <p class="body-text" style="font-size:14px; margin-top: 6px;">
-        Led 5 content creators, 2 graphic designers, 1 video editor, 1 reel specialist, 1 app developer, 1 web developer, and 2 sales representatives — all reporting directly to me. Each person owned a client account. Quarterly content plans. Weekly man-to-man review sessions. ClickUp tracking for every deliverable.
-      </p>
+  <div class="market-grid">
+    <div class="reveal reveal-delay-1 market-card">
+      <div class="market-flag">🇸🇦</div>
+      <div class="market-name">Saudi Arabia</div>
+      <div class="market-desc">Contributed to a government-sector initiative under the Ministry of Interior — an addiction awareness and educational gaming project with a USD 16K+ budget. Direct experience navigating Saudi institutional culture and stakeholder expectations.</div>
     </div>
-    <div class="lead-card">
-      <h3 class="card-title">Hiring as a Competitive Advantage</h3>
-      <p class="body-text" style="font-size:14px; margin-top: 6px;">
-        Recruited 17+ professionals across career. Wrote every job description. Ran every interview. Made every hiring decision — including overruling HR to hire a video editor the team had rejected, who became the best-performing creative on the team. Built a backup candidate pipeline that the company still drew from after my departure.
-      </p>
+    <div class="reveal reveal-delay-2 market-card">
+      <div class="market-flag">🇴🇲</div>
+      <div class="market-name">Oman</div>
+      <div class="market-desc">Represented a technology company at COMEX Oman — one of the largest tech events in the region. Built the company's event presence from scratch, generated qualified business opportunities, and expanded the regional client network with international tech companies.</div>
     </div>
-    <div class="lead-card">
-      <h3 class="card-title">Performance Management System</h3>
-      <p class="body-text" style="font-size:14px; margin-top: 6px;">
-        Introduced a split compensation model — base salary plus KPI-linked incentives tied to task quality, output volume, and attendance. Not inherited from HR — designed and implemented by me. Created accountability without micromanagement. Team understood the system and performed to it.
-      </p>
+    <div class="reveal reveal-delay-3 market-card">
+      <div class="market-flag">🇦🇪</div>
+      <div class="market-name">UAE</div>
+      <div class="market-desc">Managed active UAE client accounts while leading a multi-client agency team. Attended the Gulf Food Show in Dubai independently — prospected, built relationships over 5 days, followed up for months, and closed a USD 7,000 international deal while still a student.</div>
     </div>
-    <div class="lead-card">
-      <h3 class="card-title">Leadership Philosophy in Practice</h3>
-      <p class="body-text" style="font-size:14px; margin-top: 6px;">
-        Cross-trained team members deliberately — pairing strong performers with developing ones so the team's collective capability grew, not just individual output. Sent content creators on offline sales visits so they understood the commercial reality their content was supposed to serve. The team that knows the business makes better creative.
-      </p>
+    <div class="reveal reveal-delay-4 market-card">
+      <div class="market-flag">🇬🇧</div>
+      <div class="market-name">UK Market</div>
+      <div class="market-desc">Managed employer branding and recruitment marketing campaigns targeting UK-based audiences through TELEPHONIC BPO. Supported UK client account retention through performance marketing-led agent acquisition.</div>
+    </div>
+    <div class="reveal reveal-delay-5 market-card">
+      <div class="market-flag">🇺🇸</div>
+      <div class="market-name">USA Market</div>
+      <div class="market-desc">Supported the retention of a major US solar sales account through targeted recruitment marketing. Generated 200+ qualified leads in 10 days — preventing account loss that would have resulted in company closure for 45 people.</div>
+    </div>
+    <div class="reveal reveal-delay-6 market-card">
+      <div class="market-flag">🇪🇬</div>
+      <div class="market-name">Egypt</div>
+      <div class="market-desc">Primary operating market — real estate, BPO, healthcare, technology, and events. Built three marketing departments, managed USD 9K+ in advertising spend, and influenced over USD 840K in real estate revenue.</div>
     </div>
   </div>
 
@@ -691,70 +806,35 @@
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 6 — CASE STUDY: ONYX REAL ESTATE
-════════════════════════════════════════════════ -->
+<!-- PAGE 6 — LEADERSHIP -->
 <div class="slide slide--alt">
-  <div class="case-header">
-    <div>
-      <div class="label">Case Study 01</div>
-      <div class="teal-line"></div>
-      <h2 class="section-title">Onyx<br><span>Real Estate</span></h2>
-    </div>
-    <div class="case-tag">Real Estate · Egypt</div>
-  </div>
+  <div class="reveal label">Leadership</div>
+  <div class="teal-line reveal"></div>
+  <h2 class="reveal section-title">Leading Teams.<br><span>Building People.</span></h2>
 
-  <div class="case-grid">
-    <div>
-      <div class="case-block">
-        <div class="case-block-label">The Situation</div>
-        <p class="body-text" style="font-size: 14px;">
-          Joined as a content creator. Found a company with active social pages, no brand identity, no target audience definition, no performance marketing, no lead generation system, no website, and no SEO — and a CEO who wanted results immediately.
-        </p>
-      </div>
-      <div class="case-block">
-        <div class="case-block-label">The Decision</div>
-        <p class="body-text" style="font-size: 14px;">
-          Proposed and led a full rebrand before running a single ad. Argued to leadership that unbranded lead generation produces unqualified traffic that doesn't convert — and wastes the budget they were eager to spend. They agreed. Within 2 months, the brand foundation was in place.
-        </p>
-      </div>
-      <div class="case-block">
-        <div class="case-block-label">The Strategy</div>
-        <p class="body-text" style="font-size: 14px;">
-          Tracked which projects the major real estate investment companies were advertising heavily — using their capital as a market signal. If Arabtec or a comparable firm was flooding ads on a project, that project had institutional confidence behind it. Convinced the CEO to concentrate media buying on those same projects. Studied the creative and copy structures of top-performing ads. Built campaign variants with A/B testing across audiences, creatives, and placements. Managed the full media buying process internally — eliminating a lead provider who was charging 10% commission. Replaced their cost with 5% internal spend, saving significant margin on every deal.
-        </p>
-      </div>
+  <div class="leadership-grid">
+    <div class="reveal reveal-delay-1 lead-card">
+      <div class="card-title">Cross-Functional Team of 13</div>
+      <p style="font-size:13px; color:var(--gray2); margin-top:6px; line-height:1.7;">
+        Led 5 content creators, 2 graphic designers, 1 video editor, 1 reel specialist, 1 app developer, 1 web developer, and 2 sales representatives. Each person owned a client account. Quarterly content plans. Weekly man-to-man review sessions. ClickUp tracking for every deliverable.
+      </p>
     </div>
-    <div>
-      <div class="case-results">
-        <div class="case-block-label" style="margin-bottom: 16px;">Results</div>
-        <div class="result-item">
-          <div class="result-num">206</div>
-          <div class="result-desc">Qualified leads generated through performance marketing campaigns</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">7+</div>
-          <div class="result-desc">Real estate deals closed directly from marketing-generated leads</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">USD 840K+</div>
-          <div class="result-desc">Revenue influenced across closed transactions</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">USD 9K+</div>
-          <div class="result-desc">Advertising budget managed across Meta campaigns</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">5%</div>
-          <div class="result-desc">Internal lead cost vs 10% external commission — 50% cost reduction</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">2 mo</div>
-          <div class="result-desc">From zero brand presence to a fully operational marketing department</div>
-        </div>
-      </div>
-      <p class="body-text" style="font-size: 13px; color: var(--gray2); margin-top: 20px; font-style: italic;">
-        Promoted from Content Creator to Marketing Team Lead within 3 months. Expanded scope to include sister company TELEPHONIC BPO within the same role.
+    <div class="reveal reveal-delay-2 lead-card">
+      <div class="card-title">Hiring as a Competitive Advantage</div>
+      <p style="font-size:13px; color:var(--gray2); margin-top:6px; line-height:1.7;">
+        Recruited 17+ professionals. Wrote every job description. Made every hiring decision — including overruling HR to hire a video editor the team had rejected, who became the strongest creative on the team. Built a backup candidate pipeline the company drew from months after my departure.
+      </p>
+    </div>
+    <div class="reveal reveal-delay-3 lead-card">
+      <div class="card-title">Performance Management System</div>
+      <p style="font-size:13px; color:var(--gray2); margin-top:6px; line-height:1.7;">
+        Introduced a split compensation model — base salary plus KPI-linked incentives tied to task quality, output volume, and attendance. Not inherited from HR — designed and implemented personally. Created accountability without micromanagement.
+      </p>
+    </div>
+    <div class="reveal reveal-delay-4 lead-card">
+      <div class="card-title">Cross-Training as Strategy</div>
+      <p style="font-size:13px; color:var(--gray2); margin-top:6px; line-height:1.7;">
+        Sent content creators on offline sales visits so they understood the commercial reality their content was supposed to serve. Paired strong performers with developing ones deliberately. Delivered a personal 30-hour marketing course to 30 BPO agents — giving them career skills, reducing turnover, and building loyalty.
       </p>
     </div>
   </div>
@@ -763,69 +843,41 @@
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 7 — CASE STUDY: TELEPHONIC / MINISTRY
-════════════════════════════════════════════════ -->
+<!-- PAGE 7 — CASE STUDY: ONYX -->
 <div class="slide">
   <div class="case-header">
     <div>
-      <div class="label">Case Study 02</div>
-      <div class="teal-line"></div>
-      <h2 class="section-title">Telephonic BPO —<br><span>The 10-Day Crisis</span></h2>
+      <div class="reveal label">Case Study 01</div>
+      <div class="teal-line reveal"></div>
+      <h2 class="reveal section-title">Onyx<br><span>Real Estate</span></h2>
     </div>
-    <div class="case-tag">BPO · Employer Branding</div>
+    <div class="reveal case-tag">Real Estate · Egypt</div>
   </div>
 
   <div class="case-grid">
     <div>
-      <div class="case-block">
+      <div class="reveal case-block">
         <div class="case-block-label">The Situation</div>
-        <p class="body-text" style="font-size: 14px;">
-          TELEPHONIC was a BPO operating US and UK sales accounts. A major US solar sales account was at risk of being lost due to insufficient qualified agents. In an all-hands leadership meeting, the CEO stated plainly: if we don't fill the headcount in 10 days, the company closes. 45 people's jobs were on the line.
-        </p>
+        <p class="body-text" style="font-size:13px;">Joined as a content creator. Found active social pages with no brand identity, no audience definition, no performance marketing, no lead generation, no website, and no SEO. A CEO who wanted results immediately and a company spending 10% commission on every lead to an external provider.</p>
       </div>
-      <div class="case-block">
-        <div class="case-block-label">My Role — Unasked For</div>
-        <p class="body-text" style="font-size: 14px;">
-          This was not my job. My role was marketing manager. The HR lead was new and out of their depth. I raised my hand in the meeting and asked: give me the requirements, I'll run the recruitment ads. I knew how to bring people. I'd done it with clients. This was no different.
-        </p>
+      <div class="reveal reveal-delay-1 case-block">
+        <div class="case-block-label">The Strategy</div>
+        <p class="body-text" style="font-size:13px;">Tracked where major real estate investment companies were concentrating their advertising — using institutional capital as a market signal. Convinced the CEO to concentrate media buying on those same projects. Studied top-performing competitor ads and built campaign variants with A/B testing. Eliminated the external lead provider — brought lead generation in-house at half the cost. Full rebrand completed before a single paid campaign launched.</p>
       </div>
-      <div class="case-block">
-        <div class="case-block-label">The Execution</div>
-        <p class="body-text" style="font-size: 14px;">
-          Built and launched a targeted recruitment campaign using performance marketing principles applied to talent acquisition. Wrote the ad copy. Defined the audience. Set the budget. Monitored daily. In a 10-day window including two days off, the campaign generated over 200 qualified applicants. We needed 40. The account was saved. The company did not close. The remaining applicants were archived into a backup talent pipeline that HR continued drawing from in subsequent months. An external recruiter had previously quoted 2 weeks and EGP 2,000 per hire — and produced zero results.
-        </p>
+      <div class="reveal reveal-delay-2 case-block">
+        <div class="case-block-label">The Outcome</div>
+        <p class="body-text" style="font-size:13px;">Promoted from Content Creator to Marketing Team Lead within 3 months. Expanded scope to include sister company TELEPHONIC BPO under the same role — effectively running two companies' marketing functions simultaneously.</p>
       </div>
     </div>
-    <div>
+    <div class="reveal reveal-delay-2">
       <div class="case-results">
-        <div class="case-block-label" style="margin-bottom: 16px;">Results</div>
-        <div class="result-item">
-          <div class="result-num">200+</div>
-          <div class="result-desc">Qualified applicants generated in 10 days via performance marketing</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">60+</div>
-          <div class="result-desc">Agents recruited and onboarded — saving the US solar account</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">45</div>
-          <div class="result-desc">Jobs protected — company remained operational</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">EGP 0</div>
-          <div class="result-desc">External recruiter cost vs EGP 2,000/hire quoted — full cost elimination</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">30</div>
-          <div class="result-desc">Agents enrolled in a personal marketing course I designed and delivered</div>
-        </div>
-      </div>
-      <div style="margin-top: 20px; background: rgba(20,184,166,0.07); border: 1px solid rgba(20,184,166,0.2); border-radius: 6px; padding: 16px;">
-        <div class="case-block-label">Ministry of Interior — KSA</div>
-        <p class="body-text" style="font-size: 13px; color: var(--gray2);">
-          Separately contributed to a Saudi government awareness initiative — an addiction prevention and unity-based educational game. USD 16K+ government project. Direct experience navigating Saudi institutional culture, stakeholder communications, and public sector expectations.
-        </p>
+        <div class="case-block-label" style="margin-bottom:14px;">Results</div>
+        <div class="result-item"><div class="result-num">206</div><div class="result-desc">Qualified leads generated through performance campaigns</div></div>
+        <div class="result-item"><div class="result-num">7+</div><div class="result-desc">Real estate deals closed from marketing-generated leads</div></div>
+        <div class="result-item"><div class="result-num">USD 840K+</div><div class="result-desc">Revenue influenced across closed transactions</div></div>
+        <div class="result-item"><div class="result-num">USD 9K+</div><div class="result-desc">Advertising budget managed across Meta campaigns</div></div>
+        <div class="result-item"><div class="result-num">50%</div><div class="result-desc">Lead cost reduction — 10% external commission eliminated</div></div>
+        <div class="result-item"><div class="result-num">2 mo</div><div class="result-desc">Zero to fully operational marketing department</div></div>
       </div>
     </div>
   </div>
@@ -834,66 +886,43 @@
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 8 — CASE STUDY: STRATX LAB
-════════════════════════════════════════════════ -->
+<!-- PAGE 8 — CASE STUDY: TELEPHONIC -->
 <div class="slide slide--alt">
   <div class="case-header">
     <div>
-      <div class="label">Case Study 03</div>
-      <div class="teal-line"></div>
-      <h2 class="section-title">Stratix Lab —<br><span>Managing Chaos at Scale</span></h2>
+      <div class="reveal label">Case Study 02</div>
+      <div class="teal-line reveal"></div>
+      <h2 class="reveal section-title">Telephonic BPO —<br><span>The 10-Day Crisis</span></h2>
     </div>
-    <div class="case-tag">Multi-Client Agency · Egypt & GCC</div>
+    <div class="reveal case-tag">BPO · Employer Branding</div>
   </div>
 
   <div class="case-grid">
     <div>
-      <div class="case-block">
-        <div class="case-block-label">The Situation</div>
-        <p class="body-text" style="font-size: 14px;">
-          Joined a startup creative agency with no clear business objectives, no reporting structure, no content planning system, and a team of 13 reporting to a business development manager who wasn't built for that role. Within the first month: an international event deadline in Oman, two active client accounts in UAE and Egypt, a company rebrand to lead, and sales training to deliver — simultaneously.
-        </p>
+      <div class="reveal case-block">
+        <div class="case-block-label">What Was at Stake</div>
+        <p class="body-text" style="font-size:13px;">A major US solar sales account was at risk of being lost due to insufficient qualified agents. In a leadership meeting the CEO stated plainly: if headcount isn't filled in 10 days, the company closes. Forty-five people's livelihoods were on the line. An external recruiter had been quoted — EGP 2,000 per hire, two-week timeline. They produced zero results.</p>
       </div>
-      <div class="case-block">
-        <div class="case-block-label">What I Built</div>
-        <p class="body-text" style="font-size: 14px;">
-          Restructured the entire team around client accounts — matching each team member to the accounts that fit their strengths. Implemented ClickUp as the company's operating system: task assignment, review stages, progress tracking, attendance accountability, monthly output reporting. Introduced quarterly content planning so the team always had a 3-month creative direction. Established a weekly report to leadership and a fortnightly HODs meeting — replacing the chaos of daily WhatsApp and missed emails with a structured operating rhythm.
-        </p>
+      <div class="reveal reveal-delay-1 case-block">
+        <div class="case-block-label">What I Did — Unasked</div>
+        <p class="body-text" style="font-size:13px;">Recruitment was not my job. I raised my hand in the meeting. I knew how to bring people through performance marketing — I'd done it for clients. I asked for the requirements and ran the campaign myself. Built the ad, defined the audience, set the budget, monitored daily. Applied the same logic I used to generate real estate leads to generate qualified job applicants.</p>
       </div>
-      <div class="case-block">
-        <div class="case-block-label">The COMEX Oman Deployment</div>
-        <p class="body-text" style="font-size: 14px;">
-          Built the company's full event presence for COMEX Oman — brochures, event content, pitch materials, pre-event teaser campaign — all from scratch, under a tight international deadline. Attended the event, generated 5 qualified business opportunities, expanded the company's regional network with international technology companies.
-        </p>
+      <div class="reveal reveal-delay-2 case-block">
+        <div class="case-block-label">Beyond the Crisis</div>
+        <p class="body-text" style="font-size:13px;">The excess applicants — 160+ beyond what was needed — were archived into a structured backup talent pipeline that HR continued drawing from for months. Separately designed and delivered a 30-hour personal marketing course to 30 agents — reducing turnover by giving stuck employees a sense of growth and forward momentum.</p>
       </div>
     </div>
-    <div>
+    <div class="reveal reveal-delay-2">
       <div class="case-results">
-        <div class="case-block-label" style="margin-bottom: 16px;">What the Department Produced</div>
-        <div class="result-item">
-          <div class="result-num">13</div>
-          <div class="result-desc">Cross-functional team members managed across multiple client accounts</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">10+</div>
-          <div class="result-desc">Videos produced for company and client brand promotion</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">3</div>
-          <div class="result-desc">Active client accounts managed simultaneously — pharmacy, UAE laundry, and tech brand</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">5</div>
-          <div class="result-desc">Qualified business opportunities generated at COMEX Oman</div>
-        </div>
-        <div class="result-item">
-          <div class="result-num">2</div>
-          <div class="result-desc">New clients closed monthly by the sales team I trained and directed</div>
-        </div>
+        <div class="case-block-label" style="margin-bottom:14px;">Results</div>
+        <div class="result-item"><div class="result-num">200+</div><div class="result-desc">Qualified applicants generated in 10 days</div></div>
+        <div class="result-item"><div class="result-num">60+</div><div class="result-desc">Agents recruited — US solar account saved</div></div>
+        <div class="result-item"><div class="result-num">45</div><div class="result-desc">Jobs protected — company remained operational</div></div>
+        <div class="result-item"><div class="result-num">EGP 0</div><div class="result-desc">External recruiter cost eliminated entirely</div></div>
+        <div class="result-item"><div class="result-num">30</div><div class="result-desc">Agents enrolled in personal marketing course</div></div>
       </div>
-      <div class="pull-quote" style="margin-top: 24px; font-size: 14px;">
-        "The workflow and operating system I built at Stratix Lab remained in use by the team long after I left. The framework outlasted the role."
+      <div class="pull-quote reveal reveal-delay-3">
+        "The external recruiter asked for 2 weeks and EGP 2,000 per hire. He produced nothing. I produced 200+ applicants in 10 days using the same tools I use to generate real estate leads."
       </div>
     </div>
   </div>
@@ -902,131 +931,116 @@
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 9 — BUSINESS IMPACT DASHBOARD
-════════════════════════════════════════════════ -->
+<!-- PAGE 9 — CASE STUDY: STRATIX -->
 <div class="slide">
-  <div class="label">Business Impact</div>
-  <div class="teal-line"></div>
-  <h2 class="section-title">The <span>Numbers</span> Behind the Work</h2>
-  <p class="body-text" style="color: var(--gray2); margin-top: 6px; max-width: 580px;">All figures converted to USD for GCC market reference. Work spans Egypt, Saudi Arabia, UAE, Oman, UK, and USA markets.</p>
-
-  <div class="kpi-grid" style="grid-template-columns: repeat(4,1fr); margin-top: 36px;">
-    <div class="kpi-card">
-      <div class="kpi-number">USD 840K+</div>
-      <div class="kpi-label">Real Estate Revenue Influenced</div>
+  <div class="case-header">
+    <div>
+      <div class="reveal label">Case Study 03</div>
+      <div class="teal-line reveal"></div>
+      <h2 class="reveal section-title">Stratx Lab —<br><span>Managing Chaos at Scale</span></h2>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-number">USD 9K+</div>
-      <div class="kpi-label">Advertising Budget Managed</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-number">300+</div>
-      <div class="kpi-label">Qualified Leads Generated</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-number">USD 16K+</div>
-      <div class="kpi-label">Saudi Government Project Budget</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-number">200+</div>
-      <div class="kpi-label">Recruitment Leads in 10 Days</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-number">50%</div>
-      <div class="kpi-label">Lead Cost Reduction at Onyx</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-number">60+</div>
-      <div class="kpi-label">Agents Recruited — Crisis Resolved</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-number">USD 7K</div>
-      <div class="kpi-label">First International Deal Closed Independently</div>
-    </div>
+    <div class="reveal case-tag">Multi-Client Agency · GCC</div>
   </div>
 
-  <div class="teal-line--wide"></div>
-  <div style="display: flex; gap: 48px; margin-top: 24px; flex-wrap: wrap;">
-    <div><span style="color:var(--teal); font-weight:700;">Industries:</span> <span style="color:var(--gray2); font-size:14px;">Real Estate · BPO · Healthcare · Technology · Events · Fashion · Retail · F&B · Recruitment</span></div>
-    <div><span style="color:var(--teal); font-weight:700;">Markets:</span> <span style="color:var(--gray2); font-size:14px;">Egypt · KSA · UAE · Oman · UK · USA</span></div>
+  <div class="case-grid">
+    <div>
+      <div class="reveal case-block">
+        <div class="case-block-label">The Situation</div>
+        <p class="body-text" style="font-size:13px;">Joined a startup creative agency with no business objectives, no reporting structure, no content system, and a team of 13 reporting to a business developer who wasn't built for that role. Within the first month: an international deadline in Oman, two active client accounts in UAE and Egypt, a company rebrand to lead, and a sales team to train — simultaneously. Working 16-hour days from week one.</p>
+      </div>
+      <div class="reveal reveal-delay-1 case-block">
+        <div class="case-block-label">What I Built</div>
+        <p class="body-text" style="font-size:13px;">Restructured the team around client accounts — matching each member to the accounts that fit their strengths. Implemented ClickUp as the company's full operating system. Introduced quarterly content planning. Established weekly leadership reports and fortnightly HODs meetings — replacing WhatsApp chaos with structured operating rhythm. Trained the sales team directly, going on offline visits with them to close deals.</p>
+      </div>
+      <div class="reveal reveal-delay-2 case-block">
+        <div class="case-block-label">COMEX Oman</div>
+        <p class="body-text" style="font-size:13px;">Built the company's full event presence for COMEX Oman under an international deadline — brochures, pitch materials, pre-event content, on-site representation. Generated 5 qualified business opportunities. Expanded the regional network with international technology companies.</p>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="case-results">
+        <div class="case-block-label" style="margin-bottom:14px;">Output</div>
+        <div class="result-item"><div class="result-num">13</div><div class="result-desc">Cross-functional team members managed across accounts</div></div>
+        <div class="result-item"><div class="result-num">3</div><div class="result-desc">Active client accounts — pharmacy, UAE laundry, tech brand</div></div>
+        <div class="result-item"><div class="result-num">10+</div><div class="result-desc">Brand and promotional videos produced</div></div>
+        <div class="result-item"><div class="result-num">5</div><div class="result-desc">Qualified business opportunities at COMEX Oman</div></div>
+        <div class="result-item"><div class="result-num">2</div><div class="result-desc">New clients closed monthly by the sales team I directed</div></div>
+      </div>
+      <div style="margin-top:18px; background:rgba(20,184,166,0.06); border:1px solid rgba(20,184,166,0.18); border-radius:6px; padding:16px;">
+        <div class="case-block-label">Ministry of Interior — KSA</div>
+        <p style="font-size:13px; color:var(--gray2); line-height:1.6;">Contributed to a Saudi government awareness initiative — addiction prevention and an educational unity-based game. USD 16K+ government budget. Direct experience working within Saudi institutional culture and public sector expectations.</p>
+      </div>
+    </div>
   </div>
 
   <div class="page-num">09</div>
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 10 — CORE EXPERTISE
-════════════════════════════════════════════════ -->
+<!-- PAGE 10 — BUSINESS IMPACT -->
 <div class="slide slide--alt">
-  <div class="label">Expertise</div>
-  <div class="teal-line"></div>
-  <h2 class="section-title">Core <span>Capabilities</span></h2>
+  <div class="reveal label">Business Impact</div>
+  <div class="teal-line reveal"></div>
+  <h2 class="reveal section-title">The <span>Numbers</span><br>Behind the Work</h2>
+  <p class="reveal body-text" style="color:var(--gray2); margin-top:6px; max-width:560px;">All figures in USD. Work spans Egypt, Saudi Arabia, UAE, Oman, UK, and USA markets.</p>
 
-  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-top: 40px;">
-    <div>
-      <div class="tool-group-title">Build</div>
-      <div class="expertise-item">Marketing Department Building</div>
-      <div class="expertise-item" style="margin-top: 10px;">Brand Identity & Strategy</div>
-      <div class="expertise-item" style="margin-top: 10px;">Marketing Operations & Systems</div>
-      <div class="expertise-item" style="margin-top: 10px;">Process Design & Documentation</div>
-      <div class="expertise-item" style="margin-top: 10px;">ClickUp Workflow Architecture</div>
-    </div>
-    <div>
-      <div class="tool-group-title">Grow</div>
-      <div class="expertise-item">Performance Marketing</div>
-      <div class="expertise-item" style="margin-top: 10px;">Media Buying — Meta, Google, LinkedIn</div>
-      <div class="expertise-item" style="margin-top: 10px;">Lead Generation & Funnel Strategy</div>
-      <div class="expertise-item" style="margin-top: 10px;">A/B Testing & Campaign Optimization</div>
-      <div class="expertise-item" style="margin-top: 10px;">Customer Acquisition Strategy</div>
-    </div>
-    <div>
-      <div class="tool-group-title">Lead</div>
-      <div class="expertise-item">Cross-Functional Team Leadership</div>
-      <div class="expertise-item" style="margin-top: 10px;">Talent Acquisition & Recruitment</div>
-      <div class="expertise-item" style="margin-top: 10px;">Employer Branding</div>
-      <div class="expertise-item" style="margin-top: 10px;">Sales Enablement</div>
-      <div class="expertise-item" style="margin-top: 10px;">Business Development Support</div>
-    </div>
+  <div class="kpi-grid reveal" style="grid-template-columns: repeat(4,1fr); margin-top:32px;">
+    <div class="kpi-card"><div class="kpi-number">USD 840K+</div><div class="kpi-label">Real Estate Revenue Influenced</div></div>
+    <div class="kpi-card"><div class="kpi-number">USD 9K+</div><div class="kpi-label">Advertising Budget Managed</div></div>
+    <div class="kpi-card"><div class="kpi-number">300+</div><div class="kpi-label">Qualified Leads Generated</div></div>
+    <div class="kpi-card"><div class="kpi-number">USD 16K+</div><div class="kpi-label">Saudi Govt Project Budget</div></div>
+    <div class="kpi-card"><div class="kpi-number">200+</div><div class="kpi-label">Recruitment Leads in 10 Days</div></div>
+    <div class="kpi-card"><div class="kpi-number">50%</div><div class="kpi-label">Lead Cost Reduction</div></div>
+    <div class="kpi-card"><div class="kpi-number">60+</div><div class="kpi-label">Agents Recruited — Crisis Saved</div></div>
+    <div class="kpi-card"><div class="kpi-number">USD 7K</div><div class="kpi-label">First International Deal — Solo</div></div>
+  </div>
+
+  <div class="teal-line--wide reveal"></div>
+  <div class="reveal" style="display:flex; gap:40px; margin-top:20px; flex-wrap:wrap;">
+    <div><span style="color:var(--teal);font-weight:700;font-size:13px;">Industries: </span><span style="color:var(--gray2);font-size:13px;">Real Estate · BPO · Healthcare · Technology · Events · Fashion · Retail · F&B · Recruitment</span></div>
+    <div><span style="color:var(--teal);font-weight:700;font-size:13px;">Markets: </span><span style="color:var(--gray2);font-size:13px;">Egypt · KSA · UAE · Oman · UK · USA</span></div>
   </div>
 
   <div class="page-num">10</div>
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 11 — TOOLS & PLATFORMS
-════════════════════════════════════════════════ -->
+<!-- PAGE 11 — EXPERTISE -->
 <div class="slide">
-  <div class="label">Tools & Platforms</div>
-  <div class="teal-line"></div>
-  <h2 class="section-title">What I <span>Work With</span></h2>
+  <div class="reveal label">Core Capabilities</div>
+  <div class="teal-line reveal"></div>
+  <h2 class="reveal section-title">What I <span>Bring</span></h2>
 
-  <div class="tools-grid">
-    <div class="tool-group">
-      <div class="tool-group-title">Advertising & Analytics</div>
-      <div class="tool-item">Meta Ads Manager</div>
-      <div class="tool-item">Google Ads</div>
-      <div class="tool-item">LinkedIn Ads</div>
-      <div class="tool-item">TikTok Ads</div>
-      <div class="tool-item">Google Analytics</div>
+  <div class="reveal" style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:28px; margin-top:36px;">
+    <div>
+      <div class="tool-group-title" style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(20,184,166,0.2);">Build</div>
+      <div class="expertise-col">
+        <div class="expertise-item">Marketing Department Building</div>
+        <div class="expertise-item">Brand Identity & Strategy</div>
+        <div class="expertise-item">Marketing Operations & Systems</div>
+        <div class="expertise-item">ClickUp Workflow Architecture</div>
+        <div class="expertise-item">Process Design & Documentation</div>
+      </div>
     </div>
-    <div class="tool-group">
-      <div class="tool-group-title">Operations & Management</div>
-      <div class="tool-item">ClickUp</div>
-      <div class="tool-item">Notion</div>
-      <div class="tool-item">Trello</div>
-      <div class="tool-item">Microsoft Office Suite</div>
-      <div class="tool-item">Google Workspace</div>
+    <div>
+      <div class="tool-group-title" style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(20,184,166,0.2);">Grow</div>
+      <div class="expertise-col">
+        <div class="expertise-item">Performance Marketing</div>
+        <div class="expertise-item">Media Buying — Meta, Google, LinkedIn</div>
+        <div class="expertise-item">Lead Generation & Funnel Strategy</div>
+        <div class="expertise-item">A/B Testing & Campaign Optimization</div>
+        <div class="expertise-item">Customer Acquisition Strategy</div>
+      </div>
     </div>
-    <div class="tool-group">
-      <div class="tool-group-title">Creative & Production</div>
-      <div class="tool-item">Adobe Photoshop</div>
-      <div class="tool-item">Adobe Illustrator</div>
-      <div class="tool-item">Adobe Premiere Pro</div>
-      <div class="tool-item">Figma</div>
-      <div class="tool-item">Canva</div>
+    <div>
+      <div class="tool-group-title" style="font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(20,184,166,0.2);">Lead</div>
+      <div class="expertise-col">
+        <div class="expertise-item">Cross-Functional Team Leadership</div>
+        <div class="expertise-item">Talent Acquisition & Recruitment</div>
+        <div class="expertise-item">Employer Branding</div>
+        <div class="expertise-item">Sales Enablement</div>
+        <div class="expertise-item">Business Development Support</div>
+      </div>
     </div>
   </div>
 
@@ -1034,56 +1048,31 @@
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 12 — WHY GCC
-════════════════════════════════════════════════ -->
+<!-- PAGE 12 — TOOLS -->
 <div class="slide slide--alt">
-  <div class="label">Market Positioning</div>
-  <div class="teal-line"></div>
-  <h2 class="section-title">Why <span>Saudi Arabia.</span><br>Why Now.</h2>
+  <div class="reveal label">Tools & Platforms</div>
+  <div class="teal-line reveal"></div>
+  <h2 class="reveal section-title">What I <span>Work With</span></h2>
 
-  <div class="summary-layout" style="margin-top: 36px;">
-    <div>
-      <p class="body-text" style="font-size: 15px; line-height: 1.9;">
-        I've worked with Saudi institutions, attended regional technology events in Oman, managed UAE client accounts, and closed international deals at the Gulf Food Show in Dubai — all before making this market my primary target.
-      </p>
-      <br>
-      <p class="body-text" style="font-size: 15px; line-height: 1.9;">
-        Saudi Arabia under Vision 2030 is in precisely the phase where my skill set is most valuable: companies expanding into new verticals, brands building their identity for the first time, marketing functions being created — not inherited. The demand is for someone who can build, not just manage.
-      </p>
-      <br>
-      <p class="body-text" style="font-size: 15px; line-height: 1.9;">
-        I've built marketing departments from zero three times. Each one produced measurable results within 90 days. I'm available for immediate relocation. I'm ready for the scale the GCC demands.
-      </p>
+  <div class="tools-grid">
+    <div class="reveal reveal-delay-1 tool-group">
+      <div class="tool-group-title">Advertising & Analytics</div>
+      <div class="tool-item">Meta Ads Manager</div>
+      <div class="tool-item">Google Ads</div>
+      <div class="tool-item">LinkedIn Ads</div>
+      <div class="tool-item">TikTok Ads</div>
+      <div class="tool-item">Google Analytics</div>
     </div>
-    <div>
-      <div class="thesis-box" style="margin-top: 0;">
-        <div class="case-block-label">GCC Touchpoints</div>
-        <div class="result-item">
-          <div class="contact-dot" style="width:8px; height:8px; flex-shrink:0;"></div>
-          <div class="result-desc">Saudi Ministry of Interior — government project contributor</div>
-        </div>
-        <div class="result-item">
-          <div class="contact-dot" style="width:8px; height:8px; flex-shrink:0;"></div>
-          <div class="result-desc">COMEX Oman — international technology event representative</div>
-        </div>
-        <div class="result-item">
-          <div class="contact-dot" style="width:8px; height:8px; flex-shrink:0;"></div>
-          <div class="result-desc">UAE client accounts — active management from agency role</div>
-        </div>
-        <div class="result-item">
-          <div class="contact-dot" style="width:8px; height:8px; flex-shrink:0;"></div>
-          <div class="result-desc">Gulf Food Show Dubai — independent international business development</div>
-        </div>
-        <div class="result-item">
-          <div class="contact-dot" style="width:8px; height:8px; flex-shrink:0;"></div>
-          <div class="result-desc">Arabic-language campaign experience — Gulf and Egyptian audiences</div>
-        </div>
-      </div>
-      <div style="margin-top: 20px; padding: 20px; background: var(--navy2); border-radius: 8px; text-align: center;">
-        <div class="kpi-number" style="font-size: 20px; color: var(--teal);">Open to Immediate Relocation</div>
-        <div class="kpi-label" style="margin-top: 8px;">Saudi Arabia · UAE · GCC</div>
-      </div>
+    <div class="reveal reveal-delay-2 tool-group">
+      <div class="tool-group-title">Operations & Management</div>
+      <div class="tool-item">ClickUp</div>
+      <div class="tool-item">Google Workspace</div>
+      <div class="tool-item">Google Workspace</div>
+    </div>
+    <div class="reveal reveal-delay-3 tool-group">
+      <div class="tool-group-title">Creative & Production</div>
+      <div class="tool-item">Canva</div>
+      <div class="tool-item">CapCut</div>
     </div>
   </div>
 
@@ -1091,59 +1080,157 @@
 </div>
 
 
-<!-- ═══════════════════════════════════════════════
-     PAGE 13 — CONTACT & CTA
-════════════════════════════════════════════════ -->
-<div class="slide" style="justify-content: center; align-items: center; text-align: center;">
-  <div class="cta-center">
-    <div class="label" style="text-align:center;">Let's Talk</div>
-    <div class="cta-line"></div>
-    <div class="cta-big">If you're building<br>something in <span>KSA</span>,<br>I've done this before.</div>
-    <p class="body-text" style="color: var(--gray2); margin-top: 16px; font-size: 15px;">
-      Available for immediate relocation. Ready for the first conversation.
-    </p>
+<!-- PAGE 13 — WHY GCC -->
+<div class="slide">
+  <div class="reveal label">Market Positioning</div>
+  <div class="teal-line reveal"></div>
+  <h2 class="reveal section-title">Why <span>Saudi Arabia.</span><br>Why Now.</h2>
 
-    <div style="margin-top: 44px; display: inline-flex; flex-direction: column; gap: 0; text-align: left; min-width: 320px;">
-      <div class="contact-item">
-        <div class="contact-dot"></div>
-        <div>
-          <div class="contact-label">Name</div>
-          <div class="contact-value">Salah Sirag</div>
-        </div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:52px; margin-top:32px; align-items:start;">
+    <div>
+      <p class="reveal body-text" style="font-size:15px; line-height:1.9;">
+        I've worked with Saudi institutions, attended regional technology events in Oman, managed UAE client accounts, and closed international deals at the Gulf Food Show in Dubai — all before making the GCC my primary target.
+      </p>
+      <br>
+      <p class="reveal reveal-delay-1 body-text" style="font-size:15px; line-height:1.9;">
+        Saudi Arabia under Vision 2030 is in precisely the phase where my skill set is most valuable: companies expanding into new verticals, brands building their identity for the first time, marketing functions being created — not inherited. The demand is for someone who can build, not just manage.
+      </p>
+      <br>
+      <p class="reveal reveal-delay-2 body-text" style="font-size:15px; line-height:1.9;">
+        I've built marketing departments from zero three times. Each one produced measurable results within 90 days. I'm ready for immediate relocation. I'm ready for the scale the GCC demands.
+      </p>
+    </div>
+    <div>
+      <div class="reveal reveal-delay-2 thesis-box" style="margin-top:0;">
+        <div class="case-block-label">GCC Touchpoints</div>
+        <div class="result-item"><div class="contact-dot" style="width:7px;height:7px;flex-shrink:0;margin-top:2px;"></div><div class="result-desc">Saudi Ministry of Interior — government project contributor</div></div>
+        <div class="result-item"><div class="contact-dot" style="width:7px;height:7px;flex-shrink:0;margin-top:2px;"></div><div class="result-desc">COMEX Oman — international technology event representative</div></div>
+        <div class="result-item"><div class="contact-dot" style="width:7px;height:7px;flex-shrink:0;margin-top:2px;"></div><div class="result-desc">UAE client accounts — active management from agency role</div></div>
+        <div class="result-item"><div class="contact-dot" style="width:7px;height:7px;flex-shrink:0;margin-top:2px;"></div><div class="result-desc">Gulf Food Show Dubai — closed USD 7K deal independently</div></div>
+        <div class="result-item" style="border:none;"><div class="contact-dot" style="width:7px;height:7px;flex-shrink:0;margin-top:2px;"></div><div class="result-desc">Arabic-language campaign experience across Gulf and Egyptian audiences</div></div>
       </div>
-      <div class="contact-item">
-        <div class="contact-dot"></div>
-        <div>
-          <div class="contact-label">Title</div>
-          <div class="contact-value">Marketing Manager — Growth & Department Building</div>
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-dot"></div>
-        <div>
-          <div class="contact-label">LinkedIn</div>
-          <div class="contact-value">linkedin.com/in/salah-sirag-90aa9b171</div>
-        </div>
-      </div>
-      <div class="contact-item">
-        <div class="contact-dot"></div>
-        <div>
-          <div class="contact-label">Location</div>
-          <div class="contact-value">Cairo, Egypt — Relocating to GCC</div>
-        </div>
-      </div>
-      <div class="contact-item" style="border-bottom: none;">
-        <div class="contact-dot"></div>
-        <div>
-          <div class="contact-label">Photo</div>
-          <div class="contact-value" style="color: var(--gray2); font-size: 13px;">[Add professional photo here]</div>
-        </div>
+      <div class="reveal reveal-delay-3" style="margin-top:18px; background:var(--navy2); border-radius:8px; padding:20px; text-align:center; border:1px solid rgba(20,184,166,0.12);">
+        <div style="font-size:15px; font-weight:700; color:var(--teal);">Open to Immediate Relocation</div>
+        <div style="font-size:12px; color:var(--gray2); margin-top:6px; letter-spacing:1px; text-transform:uppercase;">Saudi Arabia · UAE · GCC</div>
       </div>
     </div>
   </div>
 
   <div class="page-num">13</div>
 </div>
+
+
+<!-- PAGE 14 — CONTACT -->
+<div class="slide slide--alt" style="justify-content:center; align-items:center; text-align:center;">
+  <div style="max-width:580px; margin:0 auto;">
+    <div class="reveal label" style="text-align:center;">Let's Talk</div>
+
+    <div class="reveal reveal-delay-1" style="margin: 0 auto 28px; width: 130px; height: 130px; border-radius: 50%; overflow: hidden; border: 3px solid rgba(20,184,166,0.5); box-shadow: 0 0 0 6px rgba(20,184,166,0.08);">
+        <img src="data:image/jpeg;base64,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" alt="Salah Sirag" style="width:100%; height:100%; object-fit:cover; object-position: center top;">
+      </div>
+
+    <div class="reveal reveal-delay-2 cta-big">
+      If you're building<br>something in <span>KSA</span>,<br>I've done this before.
+    </div>
+
+    <p class="reveal reveal-delay-3 body-text" style="color:var(--gray2); font-size:14px;">
+      Available for immediate relocation. Ready for the first conversation.
+    </p>
+
+    <div class="reveal reveal-delay-4" style="margin-top:36px; display:inline-flex; flex-direction:column; gap:0; text-align:left; min-width:340px;">
+      <div class="contact-item">
+        <div class="contact-dot"></div>
+        <div><div class="contact-label">Name</div><div class="contact-value">Salah Sirag</div></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-dot"></div>
+        <div><div class="contact-label">Email</div><div class="contact-value">salahsirag5@gmail.com</div></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-dot"></div>
+        <div><div class="contact-label">Phone</div><div class="contact-value">+20 111 771 8781</div></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-dot"></div>
+        <div><div class="contact-label">LinkedIn</div><div class="contact-value">linkedin.com/in/salah-sirag-90aa9b171</div></div>
+      </div>
+      <div class="contact-item" style="border:none;">
+        <div class="contact-dot"></div>
+        <div><div class="contact-label">Location</div><div class="contact-value">Cairo, Egypt — Relocating to GCC</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-num">14</div>
+</div>
+
+
+<script>
+// ── SCROLL REVEAL ──
+const revealEls = document.querySelectorAll('.reveal');
+const tealLines = document.querySelectorAll('.teal-line:not(.teal-line--wide)');
+const timeline  = document.querySelector('.timeline');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+revealEls.forEach(el => observer.observe(el));
+
+// teal line draw
+const lineObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      lineObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+tealLines.forEach(l => lineObserver.observe(l));
+
+// timeline line
+if (timeline) {
+  const tlObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); tlObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.3 });
+  tlObs.observe(timeline);
+}
+
+// ── COUNT-UP ──
+function animateCount(el) {
+  const target = parseInt(el.dataset.target);
+  const duration = 1600;
+  const start = performance.now();
+  const suffix = el.dataset.target.includes('+') ? '+' : '';
+
+  function step(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target) + (progress >= 1 ? suffix : '');
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+const countEls = document.querySelectorAll('.count-up');
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCount(entry.target);
+      countObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+countEls.forEach(el => countObserver.observe(el));
+</script>
 
 </body>
 </html>
